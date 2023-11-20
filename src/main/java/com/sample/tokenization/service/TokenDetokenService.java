@@ -1,5 +1,8 @@
 package com.sample.tokenization.service;
 
+import com.sample.tokenization.repository.VaultRepository;
+import com.sample.tokenization.vault.Vault;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.Cipher;
@@ -9,6 +12,9 @@ import java.util.Base64;
 @Service
 public class TokenDetokenService {
 
+    @Autowired
+    VaultRepository vaultRepository;
+
     private static final String secretKey = "ThisIsASecretKey";
 
     public  String tokenize(String originalData) {
@@ -17,7 +23,13 @@ public class TokenDetokenService {
             Cipher cipher = Cipher.getInstance("AES");
             cipher.init(Cipher.ENCRYPT_MODE, secretKeySpec);
             byte[] encryptedBytes = cipher.doFinal(originalData.getBytes());
-            return Base64.getEncoder().encodeToString(encryptedBytes);
+            Vault vault = new Vault();
+            vault.setSensitiveData(originalData);
+
+            String token = Base64.getEncoder().encodeToString(encryptedBytes);
+            vault.setToken(token);
+            vaultRepository.save(vault);
+            return token;
         } catch (Exception e) {
             e.printStackTrace();
             return null;

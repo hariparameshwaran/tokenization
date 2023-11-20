@@ -23,6 +23,7 @@ public class TokenizationController {
         System.out.println("Token is :" + token);
         TokenizeResponse tokenizeResponse = new TokenizeResponse();
         tokenizeResponse.setToken(token);
+
         return tokenizeResponse;
     }
 
