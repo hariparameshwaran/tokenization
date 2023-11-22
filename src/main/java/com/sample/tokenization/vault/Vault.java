@@ -21,6 +21,8 @@ public class Vault {
     @GeneratedValue
     private Long id;
 
+    private String referenceId;
+
     private String sensitiveData;
 
     private String token;

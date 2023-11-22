@@ -17,7 +17,7 @@ public class TokenDetokenService {
 
     private static final String secretKey = "ThisIsASecretKey";
 
-    public  String tokenize(String originalData) {
+    public  String tokenize(String originalData, String referenceId) {
         try {
             SecretKeySpec secretKeySpec = new SecretKeySpec(secretKey.getBytes(), "AES");
             Cipher cipher = Cipher.getInstance("AES");
@@ -25,7 +25,7 @@ public class TokenDetokenService {
             byte[] encryptedBytes = cipher.doFinal(originalData.getBytes());
             Vault vault = new Vault();
             vault.setSensitiveData(originalData);
-
+            vault.setReferenceId(referenceId);
             String token = Base64.getEncoder().encodeToString(encryptedBytes);
             vault.setToken(token);
             vaultRepository.save(vault);
