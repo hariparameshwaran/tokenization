@@ -23,6 +23,8 @@ public class Vault {
 
     private String referenceId;
 
+    private String fieldName;
+
     private String sensitiveData;
 
     private String token;

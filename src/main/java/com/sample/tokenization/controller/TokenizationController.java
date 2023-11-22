@@ -19,7 +19,7 @@ public class TokenizationController {
     @PostMapping("/tokenize")
     public TokenizeResponse tokenize(@RequestBody TokenizeRequest tokenizeRequest) {
         System.out.println("Tokenize Request :" + tokenizeRequest.getSensitiveData());
-        String token = tokenDetokenService.tokenize(tokenizeRequest.getSensitiveData(), "9999");
+        String token = tokenDetokenService.tokenize(tokenizeRequest.getSensitiveData(), "9999", "abc");
         System.out.println("Token is :" + token);
         TokenizeResponse tokenizeResponse = new TokenizeResponse();
         tokenizeResponse.setToken(token);
@@ -50,7 +50,9 @@ public class TokenizationController {
             System.out.println("field Data : " + sensitiveDataItem.getFieldData()) ;
             TokenizedData tokenizedDataItem = new TokenizedData();
             tokenizedDataItem.setFieldName(sensitiveDataItem.getFieldName());
-            String token = tokenDetokenService.tokenize(sensitiveDataItem.getFieldData(), tokenizeRequestList.getReferenceId());
+            String token = tokenDetokenService.tokenize(sensitiveDataItem.getFieldData(),
+                                tokenizeRequestList.getReferenceId(),
+                                sensitiveDataItem.getFieldName());
             tokenizedDataItem.setToken(token);
             tokenizedDataList.add(tokenizedDataItem);
         }
